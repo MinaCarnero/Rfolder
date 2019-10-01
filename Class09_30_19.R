@@ -143,7 +143,7 @@ vc <- cut(x=v, breaks =seq(5,20,1), include.lowest = T)
 v
 
 vc
-
+#done for 09/30/19
 
 
 
