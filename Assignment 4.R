@@ -53,9 +53,15 @@ head(jointdataframe)
     
 
 # Question 7
+
+library(plyr)
+library(dplyr)
   
 pdco <- tapply(X = f$parcel.density.m3, INDEX = f$transect.id, FUN = count)
-pdco
+(pdco)
+
+pdco = as.data.frame(pdco)
+str(pdco)
 
   
 # Question 8
