@@ -45,21 +45,28 @@ pd.sd.df
 
 # Question 6
 
-jointdataframe <- merge(pdm.df, pd.sd.df, by = "")
+jointdataframe <- merge(Transect, c(pdm.df, pd.sd.df), by = "row.names")
 
 jointdataframe  
+colnames(jointdataframe) <-c("Row.names","Transect", "Density.mean..m3.", "Stand.Deviation")
+head(jointdataframe)
     
+
 # Question 7
   
+pdco <- tapply(X = f$parcel.density.m3, INDEX = f$transect.id, FUN = count)
+pdco
+
   
 # Question 8
   
+
 
 # Summarize and join ------------------------------------------------------
 
 # Question 9
   
-  
+
 
 # Question 10
   
