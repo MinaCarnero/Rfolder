@@ -23,6 +23,7 @@ head(f)
 
 # Question 2
 
+list.files(pattern=".txt")
 date <- scan(file = 'ISIIS201405291242.txt', what = "character",skip = 1, nlines = 1, quiet = TRUE)
 date
 
@@ -158,25 +159,84 @@ head(d4)
 
 # Question 9
 
+head(d1)
+Aurelia.2012 <- d1[d1$year == "2012",]
 
-
-
-
-
+head(Aurelia.2012)
 
 
 # SECTION 3 ---------------------------------------------------------------
 
 
+depth.s <- subset(x=f, f$depth_fac == "Shallow")
+
+head(depth.s)
+
+
+depth.m <- subset(x=f, f$depth_fac == "Mid")
+
+head(depth.m)
+
+depth.d <- subset(x=f, f$depth_fac == "Deep")
+
+head(depth.d)
+
+depth <- cbind(depth.s,depth.m,depth.d)
+
+# Question 11
+
+Transect <- rownames(pdm.df)
+
+Transect
+
+mj <- right_join(x=depth.s,y=depth.m, by=c("transect.id"))
+
+mj$Row.names = NULL  
+
+#Question 12
+
+jointdataframe <- merge(Transect, c(depth.s,depth.m), by = "row.names")
+
+jointdataframe$Row.names = NULL
+
 
 
 # SECTION 4 ---------------------------------------------------------------
 
+load(batting.2008)
+
+hr <- tapply(X = d$HR, INDEX = list(d$teamID), FUN=sum)
+
+hr
+
+team.stats.sum <- aggregate(x=d[,c("AB","H","BB","2B","HR")], by=list(d$teamID), FUN=sum)
+
+team.stats.sum
+
+team.sum <- d %>% group_by(teamID, lgID) %>% summarise(ABsum = sum(AB), ABmean = mean(AB), ABsd = sd(AB), ABcount = n())
+
+head(team.sum)
 
 
 # BONUS -------------------------------------------------------------------
+#Using fish data. In order to use dcast I used melt first
+
+fs.melt <-melt(data = fs, id.vars = c("transect.id", "parcel.id", "area_fac", "depth_fac"), 
+               measure.vars = c("parcel.length.m"), value.name = c("numbers"))
+
+head(fs.melt)
 
 
+unique(fs.melt$variable)
+
+fs.melt$variable <- as.character(fs.melt$variable)
+
+head(fs.melt)
+
+fs.dcast <- dcast(data = fs.melt, formula = transect.id~variable, value.var = c("numbers"), 
+                  fun.aggregate = mean)
+
+head(fs.dcast)
 
 
 
